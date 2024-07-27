@@ -57,4 +57,4 @@ plot_nk_vs_wl(nk_adachi, title='GaAs nk: Adachi')
 plot_nk_vs_wl(nk_aspnes, title='GaAs nk: Aspnes')
 
 # Papatryfonos
-plot_nk_vs_wl(nk_aspnes, title='GaAs nk: Papatryfonos')
+plot_nk_vs_wl(nk_papa, title='GaAs nk: Papatryfonos')

@@ -11,28 +11,6 @@ import matplotlib.pyplot as plt
 from calcs import get_nk_data_yml
 from calcs import epsilon_adachi
 
-def get_gaas_nk_data(model: None = None,
-                    wl_span: None = None,
-                    n_points = 200):
-
-    filePath = 'data-nk/GaAs/'
-    if model == 'adachi':
-        nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
-    elif model == 'aspnes':
-        nk = get_nk_data_yml(filePath + 'Aspnes.yml', wl_span=wl_span, n_points=n_points)
-    elif model == 'papatryfonos':
-        nk = get_nk_data_yml(filePath + 'Papatryfonos.yml', wl_span=wl_span, n_points=n_points)
-    # Default to Adachi model
-    else:
-        nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
-        if model == None:
-            print('No refractive index model specified. Default to Adachi.')
-        else:
-            print('Invalid model name. Choose one of: ' + str(self.valid_models))
-
-    return nk 
-
-
 class GaAs:
 
     name = 'GaAs'
@@ -71,8 +49,6 @@ class GaAs:
 
 
     #*** Model Parameters for Optical Dispersion Calculations According to Adachi 1989 *** 
-
-    
     class adachi_consts:
         E0   = 1.42    #eV
         Δ0   = 1.77-E0 #eV
@@ -94,15 +70,6 @@ class GaAs:
                     'aspnes',
                     'papatryfonos']
 
-    # Get data for nk versus wavelength and return in a pandas dataframe
-    def get_nk_data(self,
-                    model: None = None,
-                    wl_span: None = None,
-                    n_points = 200):
-        nk = get_gaas_nk_data(model=model, wl_span=wl_span, n_points=n_points)
-
-        return nk
-    
     #*** Calculate Optical Dispersion eps(hw) Using Adachi Model *** 
     def calculate_eps(self,
                       Eph = (0.1, 6),
@@ -112,9 +79,61 @@ class GaAs:
 
 
 
+    # Get data for nk versus wavelength and return in a pandas dataframe
+    def get_nk_data(self,
+                    model: None = None,
+                    wl_span: None = None,
+                    n_points = 200):
+
+        filePath = 'data-nk/GaAs/'
+        if model == 'adachi':
+            nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
+        elif model == 'aspnes': 
+            nk = get_nk_data_yml(filePath + 'Aspnes.yml', wl_span=wl_span, n_points=n_points)
+        elif model == 'papatryfonos':
+            nk = get_nk_data_yml(filePath + 'Papatryfonos.yml', wl_span=wl_span, n_points=n_points)
+        # Default to Adachi model
+        else:
+            nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
+
+        if model == None:
+            print('No refractive index model specified. Default to Adachi.')
+        elif model != self.valid_models[0] and model != self.valid_models[1] and model != self.valid_models[2]:
+            print('Invalid model name. Choose one of: ' + str(self.valid_models))
+
+        return nk
+
+
 
 if __name__ == "__main__":
     GaAs = GaAs()
     print('The lattice constant of GaAs is: ' + str(GaAs.a))
 
 
+
+
+"""
+def get_gaas_nk_data(model: None = None,
+                    wl_span: None = None,
+                    n_points = 200):
+    
+    #Description: get nk data from from specified .yml file. Interpolate n_points over the given wavelength span
+    
+
+    filePath = 'data-nk/GaAs/'
+    if model == 'adachi':
+        nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
+    elif model == 'aspnes':
+        nk = get_nk_data_yml(filePath + 'Aspnes.yml', wl_span=wl_span, n_points=n_points)
+    elif model == 'papatryfonos':
+        nk = get_nk_data_yml(filePath + 'Papatryfonos.yml', wl_span=wl_span, n_points=n_points)
+    # Default to Adachi model
+    else:
+        nk = get_nk_data_yml(filePath + 'Adachi.yml', wl_span=wl_span, n_points=n_points)
+        if model == None:
+            print('No refractive index model specified. Default to Adachi.')
+        else:
+            print('Invalid model name. Choose one of: ' + str(self.valid_models))
+
+    return nk 
+"""

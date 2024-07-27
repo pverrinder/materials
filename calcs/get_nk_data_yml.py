@@ -11,6 +11,7 @@ def get_nk_data_yml(fileName,
           n_points = 200):
     
     """
+    Description:
     fileName: path to the .csv data file
     wl_span: wavelength range in, or single wavelength over which to interpolate the data
              Can be either tuple (wl1, wl2) or single valued list [wl].
